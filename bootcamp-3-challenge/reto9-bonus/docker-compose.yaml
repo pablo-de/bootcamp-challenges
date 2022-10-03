@@ -1,0 +1,28 @@
+version: "3"
+
+services:
+  postgres:
+    build: ./postgres
+    environment:
+      POSTGRES_PASSWORD: admin
+    ports:
+      - "5433:5432"
+    networks:
+      - back-front
+
+  web-app:
+    build: ./myapp
+    restart: always
+    ports:
+      - "5000:5000"
+    environment:
+      POSTGRES_USER: myapp
+      POSTGRES_PASSWORD: pass
+      POSTGRES_DB: myappdb
+      POSTGRES_HOST: postgres
+    networks:
+      - back-front
+
+networks:
+  back-front:
+    driver: bridge
